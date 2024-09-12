@@ -101,8 +101,8 @@ export function Signup() {
                 <div className="border-4 border-t-blue-500 border-white rounded-full animate-spin ease-in-out h-6 w-6"></div>
               ): (
                 <Fragment>
-                    Entrar
-                   <FiLogIn className="w-6 h-6" />
+                  Entrar
+                  <FiLogIn className="w-6 h-6" />
                 </Fragment>
               )
             }
@@ -111,7 +111,7 @@ export function Signup() {
 
         <section className="w-full text-white font-poppins font-normal flex gap-2">
           Já possui uma conta?
-          <Link className="text-green-500 hover:brightness-95 font-medium" href="/">
+          <Link className="text-green-500 hover:brightness-95 font-medium" href="/signin?mode=anonymous">
             Acessar
           </Link>
         </section>

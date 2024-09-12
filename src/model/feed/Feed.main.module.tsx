@@ -20,7 +20,7 @@ export function FeedMain() {
 
       <section className="w-full flex flex-wrap items-center justify-start gap-12 pb-8">
         {
-          isLoading && (
+          isLoading || events.length === 0 && (
             <FeedEmpty />
           )
         }
@@ -96,7 +96,7 @@ export function FeedMain() {
                       }
                     }}
                     href={event.eventPageLink || "#"}
-                    target="_blank"
+                    target={event.eventPageLink ? "_blank" : ""}
                     rel="noopener noreferrer"
                     className="bg-green-500 text-white shadow-lg text-base hover:brightness-110 py-3 cursor-pointer font-poppins rounded w-full flex gap-3 items-center justify-center">
                     <FiGlobe className="w-5 h-5" />

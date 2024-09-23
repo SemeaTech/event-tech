@@ -91,7 +91,7 @@ export function Login() {
         </section>
         <Form.Trigger>
           <button 
-            className="bg-green-500 flex gap-3 justify-center items-center hover:brightness-95 text-white text-lg font-medium py-3 px-4 rounded w-full" 
+            className="bg-emerald-500 flex gap-3 justify-center items-center hover:brightness-95 text-white text-lg font-medium py-3 px-4 rounded w-full" 
             type="submit"
           >
             {

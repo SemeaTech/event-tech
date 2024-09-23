@@ -4,9 +4,10 @@ import { getEvents } from "@/api/events";
 import { CardEvent } from "@/components/ui/CardEvent";
 import { DialogHeader, Dialog, DialogTrigger, DialogContent, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { useQuery } from "@tanstack/react-query";
-import { FiCalendar, FiGlobe, FiHome, FiMapPin } from "react-icons/fi";
+import { FiGlobe } from "react-icons/fi";
 import { toast } from "sonner";
 import { FeedEmpty } from "./Feed.empty.module";
+import { Fragment } from "react";
 
 export function FeedMain() {
   const { data: events, isLoading } = useQuery({
@@ -50,10 +51,24 @@ export function FeedMain() {
                       <span className="text-gray-200 text-base text-end w-full font-poppins">
                         {
                           new Intl.DateTimeFormat("pt-BR", {
+                            month: "short",
                             day: "2-digit",
-                            month: "2-digit",
                             year: "numeric",
-                          }).format(new Date(event.dateEvent))
+                          }).format(new Date(event.startDate))
+                        }
+                        {
+                          event.endDate && (
+                            <Fragment>
+                              {" - "}
+                              {
+                                new Intl.DateTimeFormat("pt-BR", {
+                                  month: "short",
+                                  day: "2-digit",
+                                  year: "numeric",
+                                }).format(new Date(event.endDate))
+                              }
+                            </Fragment>
+                          )
                         }
                       </span>
                     </div>
@@ -65,13 +80,7 @@ export function FeedMain() {
                       <span className="text-gray-200 text-base font-poppins">{event.organization}</span>
                     </div>
                   </div>
-
-                  <div className="flex flex-col gap-1">
-                    <span className="text-gray-400 font-jetbrains">Dias de evento:</span>
-                    <div className="flex items-center gap-1 justify-end">
-                      <span className="text-gray-200 text-base font-poppins">{event.eventDays}</span>
-                    </div>
-                  </div>
+                  
                   <div className="flex flex-col gap-1">
                     <span className="text-gray-400 font-jetbrains">Valor do ingresso:</span>
                     <div className="flex items-center gap-1 justify-start">
@@ -98,7 +107,7 @@ export function FeedMain() {
                     href={event.eventPageLink || "#"}
                     target={event.eventPageLink ? "_blank" : ""}
                     rel="noopener noreferrer"
-                    className="bg-green-500 text-white shadow-lg text-base hover:brightness-110 py-3 cursor-pointer font-poppins rounded w-full flex gap-3 items-center justify-center">
+                    className="bg-emerald-500 text-white shadow-lg text-base hover:brightness-110 py-3 cursor-pointer font-poppins rounded w-full flex gap-3 items-center justify-center">
                     <FiGlobe className="w-5 h-5" />
                     Página do evento
                   </a>

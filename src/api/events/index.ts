@@ -8,6 +8,21 @@ export async function getEvents() {
   return events.data
 }
 
-export async function addEvent(eventData: z.infer<typeof eventSchema>) {
+export async function getEventsByUser() {
+  const events = await axiosInstance.get("/event/user")
+
+  return events.data
+}
+export interface IEventDto extends z.infer<typeof eventSchema> {
+  id: string;
+  startDate: string;
+  endDate: string;
+}
+
+export async function addEvent(eventData: IEventDto) {
   await axiosInstance.post("/event/create", eventData)
+}
+
+export async function updateEvent(eventData: IEventDto) {
+  await axiosInstance.put(`/event/update/${eventData.id}`, eventData)	
 }

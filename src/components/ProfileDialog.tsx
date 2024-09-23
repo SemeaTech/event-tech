@@ -6,14 +6,13 @@ import { Form } from "@/components/Form";
 import { FiChevronDown, FiShare, FiUser, FiLogOut, FiLogIn, FiPlus, FiHome } from "react-icons/fi";
 import { DialogHeader,Dialog, DialogTrigger, DialogContent, DialogTitle } from "./ui/dialog";
 import Image from "next/image";
-import { addEvent } from "@/api/events";
+import { addEvent, IEventDto } from "@/api/events";
 import { logout } from "@/api/login";
 import { useEventHookForm } from "@/hooks/event";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { z } from "zod";
 import Link from "next/link";
 import { DateRange } from "react-day-picker";
 import { DateRangePicker } from "./ui/DateRangePicker";
@@ -46,10 +45,7 @@ export function ProfileDialog() {
 
   const { mutate: addEventFn, isPending } = useMutation({
     mutationKey: ["addEvent"],
-    mutationFn: (eventData: z.infer<typeof eventSchema>) => addEvent({
-      ...eventData,
-      dateEvent: dateRange as DateRange,
-    }),
+    mutationFn: (eventData: IEventDto) => addEvent(eventData),
     onSuccess: () => {
       reset({
         location: "",
@@ -90,8 +86,12 @@ export function ProfileDialog() {
     }
   })
 
-  function action(eventData: z.infer<typeof eventSchema>) {
-    addEventFn(eventData)
+  function action(eventData: IEventDto) {
+    addEventFn({
+      ...eventData,
+      startDate: dateRange?.from as any,
+      endDate: dateRange?.to as any
+    })
   }
   function actionLogout() {
     logoutFn()
@@ -156,7 +156,7 @@ export function ProfileDialog() {
           <DialogTitle>Compartilhar evento</DialogTitle>
         </DialogHeader>
 
-        <Form.Root className="w-full space-y-4" onSubmit={handleSubmit(action)}>
+        <Form.Root className="w-full space-y-4" onSubmit={handleSubmit(action as any)}>
           <section className="space-y-2">
             <Form.Label className="text-gray-200 font-medium font-jetbrains" htmlFor="location">Localização</Form.Label>
             <Form.Field

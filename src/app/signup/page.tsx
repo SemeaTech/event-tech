@@ -1,4 +1,4 @@
-import { SignupLayout } from "@/model/signup/SignupLayout";
+import { SignupLayout } from "@/view/signup/SignupLayout";
 
 export default function Signup() {
   return (

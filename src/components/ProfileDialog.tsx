@@ -56,6 +56,9 @@ export function ProfileDialog() {
       queryCLient.invalidateQueries({
         queryKey: ["events"],
       })
+      queryCLient.invalidateQueries({
+        queryKey: ["events-user"],
+      })
       toast("Evento adicionado com sucesso")
     },
     onError: (error: any) => {

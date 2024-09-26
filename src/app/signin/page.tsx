@@ -1,4 +1,4 @@
-import { HomeLayout } from "@/model/signing/HomeLayout";
+import { HomeLayout } from "@/view/signing/HomeLayout";
 
 export default function Home() {
   return (

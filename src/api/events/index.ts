@@ -26,3 +26,7 @@ export async function addEvent(eventData: IEventDto) {
 export async function updateEvent(eventData: IEventDto) {
   await axiosInstance.put(`/event/update/${eventData.id}`, eventData)	
 }
+
+export async function deleteEvent(eventId: string) {
+  await axiosInstance.delete(`/event/delete/${eventId}`)
+}

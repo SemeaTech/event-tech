@@ -1,6 +1,6 @@
 "use client"
 
-import { getEventsByUser, IEventDto, updateEvent } from "@/api/events";
+import { deleteEvent, getEventsByUser, IEventDto, updateEvent } from "@/api/events";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FeedEmpty } from "../feed/Feed.empty.module";
 import { CardEvent } from "@/components/ui/CardEvent";
@@ -14,6 +14,7 @@ import { eventSchema, useEventHookForm } from "@/hooks/event";
 import { z } from "zod";
 import { DateRangePicker } from "@/components/ui/DateRangePicker";
 import { DateRange } from "react-day-picker";
+import { FiTrash } from "react-icons/fi";
 
 export function ProfileMain() {
   const [dateRange, setDateRange] = useState<DateRange | undefined>({} as DateRange)
@@ -70,6 +71,17 @@ export function ProfileMain() {
     }
   })
 
+  const { mutate: deleteEventFn } = useMutation({
+    mutationKey: ["deleteEvent"],
+    mutationFn: (eventId: string) => deleteEvent(eventId),
+    onSuccess: () => {
+      queryCLient.invalidateQueries({
+        queryKey: ["events-user"],
+      })
+      toast("Evento excluído com sucesso")
+    },
+  })
+
   function action(eventData: IEventDto) {
     updateEventFn({
       ...eventData,
@@ -77,6 +89,10 @@ export function ProfileMain() {
       startDate: dateRange!.from as any,
       endDate: dateRange?.to as any
     })
+  }
+
+  function actionDeleteEvent(eventData: IEventDto) {
+    deleteEventFn(eventData.id)
   }
 
   function actionUpdateEventData(eventData: IEventDto) {
@@ -105,7 +121,17 @@ export function ProfileMain() {
               </SheetTrigger>
               <SheetContent>
                 <SheetHeader>
-                  <SheetTitle>Atualizar informações</SheetTitle>
+                  <SheetTitle
+                  className="flex gap-2 flex-col justify-between py-4"
+                  >
+                    <button
+                      className="w-5 h-5"
+                      onClick={() => actionDeleteEvent(event)}
+                    >
+                      <FiTrash className="w-5 h-5 text-gray-400 hover:text-red-500"  />
+                    </button>
+                   <span className="text-gray-200">Atualizar informações</span>
+                  </SheetTitle>
                 </SheetHeader>
                 <Form.Root className="w-full space-y-4" onSubmit={handleSubmit(action as any)}>
                   <section className="space-y-2">

@@ -1,4 +1,4 @@
-import { FeedLayout } from "@/model/feed/FeedLayout";
+import { FeedLayout } from "@/view/feed/FeedLayout";
 
 export default function Feed() {
   return (
